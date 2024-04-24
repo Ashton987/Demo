@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Docx Converter</title>
+  <style>
+    #drop-area {
+      border: 1px;
+      box-shadow:1px 1px 2px 2px rgb(162, 162, 237);
+      border-style: solid;
+      border-radius: 20px;
+      width: 300px;
+      height: 200px;
+      text-align: center;
+      margin:50px auto;
+      cursor: pointer;
+    }
+   p {
+    font-size: 23px;
+
+   }
+   #fileElem{
+    text-align: center;
+    margin-top: 15px;
+    margin-left: 33px;
+    border-style:  rgb(169, 169, 49);
+   }
+  </style>
+</head>
+<body>
+  <div id="drop-area" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+    <p>Drag & drop images here</p>
+    <input type="file" id="fileElem" multiple accept="image/*">
+    <!--<button for="fileElem">Upload </button>-->
+    <!--<label for="fileelem">Upload</label>-->
+    
+
+  </div>
+
+  <script>
+    function dragOverHandler(event) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "copy";
+    }
+
+    function dropHandler(event) {
+      event.preventDefault();
+      var files = event.dataTransfer.files;
+      uploadFiles(files);
+    }
+
+    function uploadFiles(files) {
+      var formData = new FormData();
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        formData.append('files[]', file);
+      }
+
+      fetch('/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'output.docx';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+</html>
