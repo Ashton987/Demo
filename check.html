@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparent Screen</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .transparent-screen {
+        position: fixed;
+        top: 0;
+        right: 0; /* Changed to right */
+        width: 25%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1); /* Transparent */
+        z-index: 9999; /* Make sure it's above other content */
+    }
+    .black-part {
+        position: fixed;
+        top: 0;
+        right: 25%; /* Changed to right */
+        width: 75%;
+        height: 100%;
+        background-color: black; /* Black background */
+        opacity: 0.8; /* Adjust opacity for transparency */
+        z-index: 9998; /* Lower z-index to keep it below transparent part */
+    }
+</style>
+</head>
+<body>
+    <div class="transparent-screen"></div>
+    <div class="black-part"></div>
+    <!-- Your content goes here -->
+</body>
+</html>
